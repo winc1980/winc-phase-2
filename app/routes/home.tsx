@@ -1,5 +1,10 @@
-import { BrandIcon } from "~/components/BrandIcon";
+import { BrandIcon } from "~/components/BrandIcon"
 
-export default function() {
-    return <BrandIcon/>
+export default function () {
+	return (
+		<div>
+			aaa
+			<BrandIcon />
+		</div>
+	)
 }

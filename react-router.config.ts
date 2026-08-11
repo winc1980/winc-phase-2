@@ -1,7 +1,7 @@
 import type { Config } from "@react-router/dev/config";
 
 export default {
-  // Config options...
-  // Server-side render by default, to enable SPA mode set this to `false`
+  // サーバーサイドレンダリングはデフォルトで有効
+  // SPAを構築する際にはfalseに設定
   ssr: true,
 } satisfies Config;
