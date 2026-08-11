@@ -26,6 +26,8 @@ export const userTable = sqliteTable("user", {
 	id: primaryId,
 	name: text().notNull(),
 	mail: text().notNull(),
+	passwordHash: text().notNull(),
+	passwordSalt: text().notNull(),
 })
 
 export const bandTable = sqliteTable("band", {
