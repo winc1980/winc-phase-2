@@ -10,7 +10,6 @@ export const liveTable = sqliteTable("live", {
 	name: text().notNull(),
 	description: text(),
 	ownerId: text().references(() => userTable.id),
-	createdAt: integer({ mode: "timestamp" }).notNull(),
 })
 
 export const liveDayTable = sqliteTable("live_day", {
@@ -27,7 +26,6 @@ export const userTable = sqliteTable("user", {
 	id: primaryId,
 	name: text().notNull(),
 	mail: text().notNull(),
-	createdAt: integer({ mode: "timestamp" }).notNull(),
 })
 
 export const bandTable = sqliteTable("band", {
