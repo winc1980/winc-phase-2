@@ -1,10 +1,19 @@
-export abstract class NamedError extends Error {
-	public readonly name: string
+export abstract class BaseError extends Error {
+	public abstract readonly name: string
 	public readonly message: string
+	public readonly cause?: unknown
 
-	constructor(name: string, message: string) {
+	constructor(message: string, cause?: unknown) {
 		super(message)
-		this.name = name
 		this.message = message
+		this.cause = cause
 	}
+}
+
+export class UnknownError extends BaseError {
+	name = "UnknownError"
+}
+
+export class RepositoryError extends BaseError {
+	name = "RepositoryError"
 }
