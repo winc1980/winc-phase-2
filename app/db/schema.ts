@@ -12,6 +12,8 @@ export const liveTable = sqliteTable("live", {
 	ownerId: text().references(() => userTable.id),
 })
 
+export type LiveTable = typeof liveTable.$inferSelect
+
 export const liveDayTable = sqliteTable("live_day", {
 	id: primaryId,
 	liveId: integer()
@@ -22,6 +24,8 @@ export const liveDayTable = sqliteTable("live_day", {
 	end: text().notNull(), // hh:mm 24時間表示
 })
 
+export type LiveDayTable = typeof liveDayTable.$inferSelect
+
 export const userTable = sqliteTable("user", {
 	id: primaryId,
 	name: text().notNull(),
@@ -30,6 +34,8 @@ export const userTable = sqliteTable("user", {
 	passwordSalt: text().notNull(),
 })
 
+export type UserTable = typeof userTable.$inferSelect
+
 export const bandTable = sqliteTable("band", {
 	id: primaryId,
 	name: text().notNull(),
@@ -37,6 +43,8 @@ export const bandTable = sqliteTable("band", {
 		.notNull()
 		.references(() => userTable.id),
 })
+
+export type BandTable = typeof bandTable.$inferSelect
 
 export const bandAvailabilityTable = sqliteTable("band_availability", {
 	id: primaryId,
@@ -52,3 +60,5 @@ export const bandAvailabilityTable = sqliteTable("band_availability", {
 	start: text().notNull(), // hh:mm 24時間表示
 	end: text().notNull(), // hh:mm 24時間表示
 })
+
+export type BandAvailabilityTable = typeof bandAvailabilityTable.$inferSelect
