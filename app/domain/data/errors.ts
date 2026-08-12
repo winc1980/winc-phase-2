@@ -15,3 +15,11 @@ export class UserMailAlreadyExistsError extends BaseError {
 export class PasswordConfirmationMismatchError extends BaseError {
 	name = "PasswordConfirmationMismatchError"
 }
+
+export class InvalidSessionTokenError extends BaseError {
+	name = "InvalidSessionTokenError"
+}
+
+export class ExpiredSessionTokenError extends BaseError {
+	name = "ExpiredSessionTokenError"
+}
