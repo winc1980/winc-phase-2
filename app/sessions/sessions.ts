@@ -1,5 +1,6 @@
 import "dotenv"
 import { createCookieSessionStorage } from "react-router"
+import type { ToastPayload } from "~/components/common/toast"
 
 const SESSION_SECRET = process.env.SESSION_SECRET
 if (!SESSION_SECRET)
@@ -11,6 +12,7 @@ type SessionData = {
 
 type SessionFlashData = {
 	error: string
+	toastPayload: ToastPayload
 }
 
 export const { getSession, commitSession, destroySession } =
