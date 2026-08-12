@@ -1,14 +1,14 @@
 import { EyeIcon, EyeOffIcon } from "lucide-react"
-import { useState } from "react"
+import { type ComponentProps, useState } from "react"
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 
-export function PasswordInput({ id }: { id: string }) {
+export function PasswordInput(props: ComponentProps<"input">) {
 	const [show, setShow] = useState(false)
 
 	return (
 		<div className="relative">
-			<Input id={id} type={show ? "text" : "password"} />
+			<Input {...props} type={show ? "text" : "password"} />
 			<Button
 				onClick={() => setShow((prev) => !prev)}
 				className="absolute top-0 right-0 h-full px-3 hover:bg-transparent"

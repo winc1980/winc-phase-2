@@ -1,5 +1,5 @@
 export type Live = {
-	id: string
+	id: number
 	name: string
 	description: string
 	ownerId: string

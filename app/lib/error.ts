@@ -13,7 +13,3 @@ export abstract class BaseError extends Error {
 export class UnknownError extends BaseError {
 	name = "UnknownError"
 }
-
-export class RepositoryError extends BaseError {
-	name = "RepositoryError"
-}

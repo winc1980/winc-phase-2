@@ -1,5 +1,5 @@
 export type User = {
-	id: string
+	id: number
 	name: string
 	mail: string // 早稲田メール
 }
