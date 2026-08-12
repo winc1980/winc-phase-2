@@ -1,5 +1,5 @@
-import { CheckCircleIcon, LoaderCircleIcon, SendIcon } from "lucide-react"
-import { Form, Link, useNavigation } from "react-router"
+import { LoaderCircleIcon, SendIcon } from "lucide-react"
+import { data, Form, Link, redirect, useNavigation } from "react-router"
 import { repositoryContext } from "~/auth/context"
 import { PasswordInput } from "~/components/common/PasswordInput"
 import { Button } from "~/components/ui/button"
@@ -12,36 +12,13 @@ import {
 	FieldSet,
 } from "~/components/ui/field"
 import { Input } from "~/components/ui/input"
-import {
-	PasswordConfirmationMismatchError,
-	type RepositoryError,
-	type UserMailAlreadyExistsError,
-} from "~/domain/data/errors"
-import type { User } from "~/domain/entities/user"
-import { fail, type Result, success } from "~/lib/result"
+import { PasswordConfirmationMismatchError } from "~/domain/data/errors"
+import { fail, success } from "~/lib/result"
+import { commitSession, getSession } from "~/sessions/sessions"
 import type { Route } from "./+types/register"
 
 export default function RegisterPage({ actionData }: Route.ComponentProps) {
 	const navigation = useNavigation()
-
-	if (actionData?.success) {
-		return (
-			<div className="h-full flex flex-col justify-center items-center gap-4 w-full">
-				<Card className="w-full max-w-xl">
-					<CardHeader>
-						<CardTitle>新規アカウント登録</CardTitle>
-					</CardHeader>
-					<CardContent className="flex flex-col items-center gap-4 text-center">
-						<CheckCircleIcon className="size-10 text-primary" />
-						<p>登録が完了しました。</p>
-						<Button variant="ghost" className="w-full">
-							<Link to="/auth/login">ログインはこちら</Link>
-						</Button>
-					</CardContent>
-				</Card>
-			</div>
-		)
-	}
 
 	return (
 		<div className="h-full flex flex-col justify-center items-center gap-4 w-full">
@@ -83,9 +60,9 @@ export default function RegisterPage({ actionData }: Route.ComponentProps) {
 									</Field>
 								</FieldGroup>
 							</FieldSet>
-							{actionData && !actionData.success && (
+							{actionData?.result && !actionData.result.success && (
 								<Field>
-									<FieldError>{actionData.error.message}</FieldError>
+									<FieldError>{actionData.result.error.message}</FieldError>
 								</Field>
 							)}
 							<Field orientation="horizontal">
@@ -117,35 +94,37 @@ export default function RegisterPage({ actionData }: Route.ComponentProps) {
 	)
 }
 
-export async function action({
-	request,
-	context,
-}: Route.ActionArgs): Promise<
-	Result<
-		User,
-		| RepositoryError
-		| UserMailAlreadyExistsError
-		| PasswordConfirmationMismatchError
-	>
-> {
+export async function action({ request, context }: Route.ActionArgs) {
 	const formData = await request.formData()
 	const name = String(formData.get("name") || "")
 	const mail = String(formData.get("mail") || "")
 	const password = String(formData.get("password") || "")
 	const passwordConfirm = String(formData.get("passwordConfirm") || "")
 
-	if (password !== passwordConfirm)
-		return fail(
-			new PasswordConfirmationMismatchError(
-				"パスワードとパスワード（確認）が一致しません",
+	if (password !== passwordConfirm) {
+		return {
+			result: fail(
+				new PasswordConfirmationMismatchError(
+					"パスワードとパスワード（確認）が一致しません",
+				),
 			),
-		)
+		}
+	}
 
 	const { userRepository } = context.get(repositoryContext)
 
 	const createResult = await userRepository.create({ name, mail, password })
 
-	if (!createResult.success) return createResult
+	if (!createResult.success) return { result: createResult }
 
-	return success(createResult.value)
+	const session = await getSession(request.headers.get("Cookie"))
+
+	console.log(createResult)
+	session.flash("toastPayload", {
+		type: "success",
+		message: "ユーザー登録が完了しました",
+	})
+	return redirect("/auth/login", {
+		headers: { "Set-Cookie": await commitSession(session) },
+	})
 }

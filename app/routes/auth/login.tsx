@@ -12,12 +12,8 @@ import {
 	FieldSet,
 } from "~/components/ui/field"
 import { Input } from "~/components/ui/input"
-import {
-	InvalidPasswordError,
-	type RepositoryError,
-	UserNotFoundError,
-} from "~/domain/data/errors"
-import { fail, type Result, success } from "~/lib/result"
+import { InvalidPasswordError, UserNotFoundError } from "~/domain/data/errors"
+import { fail } from "~/lib/result"
 import { signToken } from "~/sessions/jwt"
 import { commitSession, getSession } from "~/sessions/sessions"
 import type { Route } from "./+types/login"
@@ -26,13 +22,6 @@ export default function LoginPage({ actionData }: Route.ComponentProps) {
 	const navigation = useNavigation()
 	return (
 		<div className="h-full flex flex-col justify-center items-center gap-4 w-full">
-			{actionData?.success && actionData.value && (
-				<Card className="w-full max-w-xl">
-					<CardHeader>
-						<CardTitle>ログインに成功しました</CardTitle>
-					</CardHeader>
-				</Card>
-			)}
 			<Card className="w-full max-w-xl">
 				<CardHeader>
 					<CardTitle>ログイン</CardTitle>
@@ -57,14 +46,9 @@ export default function LoginPage({ actionData }: Route.ComponentProps) {
 									</Field>
 								</FieldGroup>
 							</FieldSet>
-							{actionData && !actionData.success && (
+							{actionData?.result.error && (
 								<Field>
-									<FieldError>{actionData.error.message}</FieldError>
-								</Field>
-							)}
-							{actionData?.success && !actionData.value && (
-								<Field>
-									<FieldError>パスワードが間違っています</FieldError>
+									<FieldError>{actionData.result.error.message}</FieldError>
 								</Field>
 							)}
 							<Field orientation="horizontal">
@@ -96,12 +80,7 @@ export default function LoginPage({ actionData }: Route.ComponentProps) {
 	)
 }
 
-export async function action({
-	request,
-	context,
-}: Route.ActionArgs): Promise<
-	Result<never, InvalidPasswordError | RepositoryError>
-> {
+export async function action({ request, context }: Route.ActionArgs) {
 	const formData = await request.formData()
 	const mail = String(formData.get("mail") || "")
 	const password = String(formData.get("password") || "")
@@ -109,29 +88,34 @@ export async function action({
 	const { userRepository } = context.get(repositoryContext)
 	const userResult = await userRepository.getByMail(mail)
 
-	if (!userResult.success) return userResult
+	if (!userResult.success) return { result: userResult }
 
 	const user = userResult.value
 
 	if (user === null)
-		return fail(
-			new UserNotFoundError(
-				`メール「${mail}」に一致するユーザーが見つかりませんでした`,
+		return {
+			result: fail(
+				new UserNotFoundError(
+					`メール「${mail}」に一致するユーザーが見つかりませんでした`,
+				),
 			),
-		)
+		}
 
 	const authResult = await userRepository.authenticateWithPassword(
 		user.id,
 		password,
 	)
 
-	if (!authResult.success) return authResult
+	if (!authResult.success) return { result: authResult }
 
 	const isAuthenticated = authResult.value
 	if (!isAuthenticated)
-		return fail(new InvalidPasswordError("パスワードが間違っています"))
+		return {
+			result: fail(new InvalidPasswordError("パスワードが間違っています")),
+		}
 
 	const token = await signToken(user.id)
+
 	const session = await getSession(request.headers.get("Cookie"))
 	session.set("sessionToken", token)
 
