@@ -118,6 +118,10 @@ export async function action({ request, context }: Route.ActionArgs) {
 
 	const session = await getSession(request.headers.get("Cookie"))
 	session.set("sessionToken", token)
+	session.flash("toastPayload", {
+		type: "success",
+		message: `${user.name} としてログインしました`,
+	})
 
 	throw redirect("/app", {
 		headers: { "Set-Cookie": await commitSession(session) },
