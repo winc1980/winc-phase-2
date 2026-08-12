@@ -7,3 +7,11 @@ export class RepositoryError extends BaseError {
 export class UserNotFoundError extends BaseError {
 	name = "UserNotFoundError"
 }
+
+export class UserMailAlreadyExistsError extends BaseError {
+	name = "UserMailAlreadyExistsError"
+}
+
+export class PasswordConfirmationMismatchError extends BaseError {
+	name = "PasswordConfirmationMismatchError"
+}

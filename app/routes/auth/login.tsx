@@ -20,6 +20,13 @@ export default function LoginPage({ actionData }: Route.ComponentProps) {
 	const navigation = useNavigation()
 	return (
 		<div className="h-full flex flex-col justify-center items-center gap-4 w-full">
+			{actionData?.success && actionData.value && (
+				<Card className="w-full max-w-xl">
+					<CardHeader>
+						<CardTitle>ログインに成功しました</CardTitle>
+					</CardHeader>
+				</Card>
+			)}
 			<Card className="w-full max-w-xl">
 				<CardHeader>
 					<CardTitle>ログイン</CardTitle>

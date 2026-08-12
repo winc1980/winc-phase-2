@@ -29,7 +29,7 @@ export type LiveDayTable = typeof liveDayTable.$inferSelect
 export const userTable = sqliteTable("user", {
 	id: primaryId,
 	name: text().notNull(),
-	mail: text().notNull(),
+	mail: text().notNull().unique(),
 	passwordHash: text().notNull(),
 })
 
