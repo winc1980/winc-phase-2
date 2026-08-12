@@ -1,5 +1,5 @@
 import { LoaderCircleIcon, SendIcon } from "lucide-react"
-import { data, Form, Link, redirect, useNavigation } from "react-router"
+import { Form, Link, redirect, useNavigation } from "react-router"
 import { repositoryContext } from "~/auth/context"
 import { PasswordInput } from "~/components/common/PasswordInput"
 import { Button } from "~/components/ui/button"
@@ -13,7 +13,7 @@ import {
 } from "~/components/ui/field"
 import { Input } from "~/components/ui/input"
 import { PasswordConfirmationMismatchError } from "~/domain/data/errors"
-import { fail, success } from "~/lib/result"
+import { fail } from "~/lib/result"
 import { commitSession, getSession } from "~/sessions/sessions"
 import type { Route } from "./+types/register"
 
