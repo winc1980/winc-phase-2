@@ -31,7 +31,6 @@ export const userTable = sqliteTable("user", {
 	name: text().notNull(),
 	mail: text().notNull(),
 	passwordHash: text().notNull(),
-	passwordSalt: text().notNull(),
 })
 
 export type UserTable = typeof userTable.$inferSelect
