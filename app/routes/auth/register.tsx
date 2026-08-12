@@ -119,7 +119,6 @@ export async function action({ request, context }: Route.ActionArgs) {
 
 	const session = await getSession(request.headers.get("Cookie"))
 
-	console.log(createResult)
 	session.flash("toastPayload", {
 		type: "success",
 		message: "ユーザー登録が完了しました",

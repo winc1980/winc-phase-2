@@ -11,7 +11,6 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 
 	const verificationResult = await verifyToken(token)
 
-	console.log(verificationResult)
 	if (!verificationResult.success) return undefined
 	const payload = verificationResult.value
 
