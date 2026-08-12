@@ -1,5 +1,5 @@
 import { LoaderCircleIcon, SendIcon } from "lucide-react"
-import { Form, Link, useNavigation } from "react-router"
+import { Form, Link, redirect, useNavigation } from "react-router"
 import { repositoryContext } from "~/auth/context"
 import { PasswordInput } from "~/components/common/PasswordInput"
 import { Button } from "~/components/ui/button"
@@ -12,8 +12,14 @@ import {
 	FieldSet,
 } from "~/components/ui/field"
 import { Input } from "~/components/ui/input"
-import { type RepositoryError, UserNotFoundError } from "~/domain/data/errors"
+import {
+	InvalidPasswordError,
+	type RepositoryError,
+	UserNotFoundError,
+} from "~/domain/data/errors"
 import { fail, type Result, success } from "~/lib/result"
+import { signToken } from "~/sessions/jwt"
+import { commitSession, getSession } from "~/sessions/sessions"
 import type { Route } from "./+types/login"
 
 export default function LoginPage({ actionData }: Route.ComponentProps) {
@@ -93,7 +99,9 @@ export default function LoginPage({ actionData }: Route.ComponentProps) {
 export async function action({
 	request,
 	context,
-}: Route.ActionArgs): Promise<Result<boolean, RepositoryError>> {
+}: Route.ActionArgs): Promise<
+	Result<never, InvalidPasswordError | RepositoryError>
+> {
 	const formData = await request.formData()
 	const mail = String(formData.get("mail") || "")
 	const password = String(formData.get("password") || "")
@@ -120,6 +128,14 @@ export async function action({
 	if (!authResult.success) return authResult
 
 	const isAuthenticated = authResult.value
+	if (!isAuthenticated)
+		return fail(new InvalidPasswordError("パスワードが間違っています"))
 
-	return success(isAuthenticated)
+	const token = await signToken(user.id)
+	const session = await getSession(request.headers.get("Cookie"))
+	session.set("sessionToken", token)
+
+	throw redirect("/app", {
+		headers: { "Set-Cookie": await commitSession(session) },
+	})
 }

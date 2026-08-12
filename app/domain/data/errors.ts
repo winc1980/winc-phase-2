@@ -16,6 +16,10 @@ export class PasswordConfirmationMismatchError extends BaseError {
 	name = "PasswordConfirmationMismatchError"
 }
 
+export class InvalidPasswordError extends BaseError {
+	name = "InvalidPasswordError"
+}
+
 export class InvalidSessionTokenError extends BaseError {
 	name = "InvalidSessionTokenError"
 }

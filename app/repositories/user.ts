@@ -11,6 +11,7 @@ import { fail, type Result, success, wrapPromise } from "~/lib/result"
 
 export interface UserRepository {
 	getByMail(mail: string): Promise<Result<User | null, RepositoryError>>
+	getById(id: number): Promise<Result<User | null, RepositoryError>>
 	authenticateWithPassword(
 		userId: number,
 		password: string,
@@ -26,6 +27,25 @@ export class UserRepositoryImpl implements UserRepository {
 	private readonly drift: DrizzleDB
 	constructor(drift: DrizzleDB) {
 		this.drift = drift
+	}
+	async getById(id: number): Promise<Result<User | null, RepositoryError>> {
+		const result = await wrapPromise(
+			this.drift.select().from(userTable).where(eq(userTable.id, id)).limit(1),
+		)
+		if (!result.success)
+			return fail(new RepositoryError("UserTableの処理が失敗しました"))
+
+		const userRow = result.value[0] as UserTable | undefined
+
+		if (!userRow) return success(null)
+
+		const user: User = {
+			id: userRow.id,
+			name: userRow.name,
+			mail: userRow.mail,
+		}
+
+		return success(user)
 	}
 
 	async getByMail(mail: string): Promise<Result<User | null, RepositoryError>> {

@@ -12,5 +12,5 @@ export default [
 		route("logout", "./routes/auth/logout.tsx"),
 		route("register", "./routes/auth/register.tsx"),
 	]),
-	route("dashboard", "./routes/dashboard.tsx"),
+	...prefix("app", [index("./routes/app/index.tsx")]),
 ] satisfies RouteConfig

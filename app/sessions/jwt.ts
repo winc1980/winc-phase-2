@@ -15,12 +15,12 @@ const algorithm: JWSAlgorithm = "HS256"
 const expiration = "30d"
 
 const JWTSessionPayloadSchema = v.object({
-	id: v.string(),
+	id: v.number(),
 })
 
 export type JWTSessionPayload = v.InferOutput<typeof JWTSessionPayloadSchema>
 
-export const signToken = async (id: string) => {
+export const signToken = async (id: number) => {
 	const payload: JWTSessionPayload = { id }
 	const token = await new SignJWT(payload)
 		.setProtectedHeader({ alg: algorithm })
