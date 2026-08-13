@@ -3,7 +3,7 @@ import type { PlainTime } from "~/lib/plain-time"
 
 export type LiveDay = {
 	id: number
-	liveId: string
+	liveId: number
 	date: PlainDate
 	start: PlainTime
 	end: PlainTime

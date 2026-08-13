@@ -1,5 +1,5 @@
 export type Band = {
 	id: number
 	name: string
-	leaderId: string
+	leaderId: number
 }

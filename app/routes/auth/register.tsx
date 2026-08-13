@@ -85,7 +85,7 @@ export default function RegisterPage({ actionData }: Route.ComponentProps) {
 			</Card>
 			<Card className="w-full max-w-xl">
 				<CardContent>
-					<Button variant="ghost" className="w-full">
+					<Button variant="link" className="w-full">
 						<Link to="/auth/login">既にアカウントをお持ちの方はこちら</Link>
 					</Button>
 				</CardContent>

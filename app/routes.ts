@@ -16,7 +16,14 @@ export default [
 		]),
 		layout(
 			"./routes/app/app-layout.tsx",
-			prefix("app", [index("./routes/app/index.tsx")]),
+			prefix("app", [
+				index("./routes/app/index.tsx"),
+				route("live/create", "./routes/app/live/create.tsx"),
+				layout(
+					"./routes/app/live/layout.tsx",
+					prefix("live/:liveId", [index("./routes/app/live/home.tsx")]),
+				),
+			]),
 		),
 	]),
 	route("*", "./routes/not-found.tsx"),

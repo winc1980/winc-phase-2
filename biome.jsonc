@@ -15,10 +15,14 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
+			"correctness": {
+				"useJsxKeyInIterable": "error"
+			},
 			"a11y": {
 				"noSvgWithoutTitle": "off"
 			},
 			"suspicious": {
+				"noArrayIndexKey": "error",
 				"noUnknownAtRules": {
 					"level": "error",
 					"options": {

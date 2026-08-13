@@ -71,9 +71,7 @@ export default function LoginPage({ actionData }: Route.ComponentProps) {
 			</Card>
 			<Card className="w-full max-w-xl">
 				<CardContent>
-					<Button variant="ghost" className="w-full">
-						<Link to="/auth/register">新規アカウント登録はこちら</Link>
-					</Button>
+					<Link to="/auth/register">新規アカウント登録はこちら</Link>
 				</CardContent>
 			</Card>
 		</div>
