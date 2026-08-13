@@ -15,6 +15,7 @@ export function PasswordInput(props: ComponentProps<"input">) {
 				size="icon"
 				type="button"
 				variant="ghost"
+				tabIndex={-1}
 			>
 				{show ? (
 					<EyeOffIcon className="size-4 text-muted-foreground" />
