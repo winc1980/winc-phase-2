@@ -5,6 +5,8 @@
 	"scripts": {
 		"build": "react-router build",
 		"dev": "react-router dev",
+		"check": "biome check",
+		"check:write": "biome check --write --unsafe",
 		"start": "react-router-serve ./build/server/index.js",
 		"typecheck": "react-router typegen && tsc"
 	},
