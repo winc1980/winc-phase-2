@@ -2,7 +2,7 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router"
 
 import type { Route } from "./+types/root"
 import "./app.css"
-import { repositoryDIMiddleware } from "./middlewares/repositories/middleware"
+import { repositoryMiddleware } from "./middlewares/repositories"
 
 export const links: Route.LinksFunction = () => [
 	{ rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -42,7 +42,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export type RootMiddleWareFunction = Route.MiddlewareFunction
-export const middleware: RootMiddleWareFunction[] = [repositoryDIMiddleware]
+export const middleware: RootMiddleWareFunction[] = [repositoryMiddleware]
 
 export default function App() {
 	return <Outlet />

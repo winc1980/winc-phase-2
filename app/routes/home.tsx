@@ -1,5 +1,5 @@
 import { BrandIcon } from "~/components/common/BrandIcon"
-import { repositoryContext } from "~/middlewares/repositories/context"
+import { repositoryContext } from "~/middlewares/repositories"
 import { verifyToken } from "~/sessions/jwt"
 import { getSession } from "~/sessions/sessions"
 import type { Route } from "./+types/home"

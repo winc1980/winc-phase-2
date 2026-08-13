@@ -13,7 +13,7 @@ import {
 import { Input } from "~/components/ui/input"
 import { InvalidPasswordError, UserNotFoundError } from "~/domain/data/errors"
 import { fail } from "~/lib/result"
-import { repositoryContext } from "~/middlewares/repositories/context"
+import { repositoryContext } from "~/middlewares/repositories"
 import { signToken } from "~/sessions/jwt"
 import { commitSession, getSession } from "~/sessions/sessions"
 import type { Route } from "./+types/login"

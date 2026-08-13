@@ -13,7 +13,7 @@ import {
 import { Input } from "~/components/ui/input"
 import { PasswordConfirmationMismatchError } from "~/domain/data/errors"
 import { fail } from "~/lib/result"
-import { repositoryContext } from "~/middlewares/repositories/context"
+import { repositoryContext } from "~/middlewares/repositories"
 import { commitSession, getSession } from "~/sessions/sessions"
 import type { Route } from "./+types/register"
 
