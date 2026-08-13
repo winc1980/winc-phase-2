@@ -19,4 +19,5 @@ export default [
 			prefix("app", [index("./routes/app/index.tsx")]),
 		),
 	]),
+	route("*", "./routes/not-found.tsx"),
 ] satisfies RouteConfig

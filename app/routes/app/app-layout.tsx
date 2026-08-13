@@ -2,6 +2,10 @@ import { Link, Outlet } from "react-router"
 import { BrandIcon } from "~/components/common/BrandIcon"
 import { PageContainer } from "~/components/common/PageContainer"
 import { Button } from "~/components/ui/button"
+import { userMiddleware } from "~/middlewares/user"
+import type { Route } from "./+types/app-layout"
+
+export const middleware: Route.MiddlewareFunction[] = [userMiddleware]
 
 export default function AppLayout() {
 	return (

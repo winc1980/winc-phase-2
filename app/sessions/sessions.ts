@@ -1,5 +1,5 @@
 import "dotenv"
-import { createCookieSessionStorage } from "react-router"
+import { createCookieSessionStorage, type Session } from "react-router"
 import type { ToastPayload } from "~/components/common/toast"
 
 const SESSION_SECRET = process.env.SESSION_SECRET
@@ -13,6 +13,7 @@ type SessionData = {
 type SessionFlashData = {
 	error: string
 	toastPayload: ToastPayload
+	redirectAfterAuth?: string
 }
 
 export const { getSession, commitSession, destroySession } =
@@ -25,3 +26,12 @@ export const { getSession, commitSession, destroySession } =
 			secure: true,
 		},
 	})
+
+export const getSessionFromRequest = (request: Request) =>
+	getSession(request.headers.get("Cookie"))
+
+export const createSessionCommitedHeader = async (
+	session: Session,
+): Promise<ResponseInit["headers"]> => {
+	return { "Set-Cookie": await commitSession(session) }
+}

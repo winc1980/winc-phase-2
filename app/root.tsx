@@ -41,8 +41,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 	)
 }
 
-export type RootMiddleWareFunction = Route.MiddlewareFunction
-export const middleware: RootMiddleWareFunction[] = [repositoryMiddleware]
+export const middleware: Route.MiddlewareFunction[] = [repositoryMiddleware]
 
 export default function App() {
 	return <Outlet />
