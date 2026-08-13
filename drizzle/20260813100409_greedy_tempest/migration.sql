@@ -1,0 +1,1 @@
+ALTER TABLE `band_application` RENAME TO `band_participation`;

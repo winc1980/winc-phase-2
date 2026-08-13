@@ -1,26 +1,21 @@
 import { integer, text } from "drizzle-orm/sqlite-core/columns"
 import { sqliteTable } from "drizzle-orm/sqlite-core/table"
 
-const primaryId = integer({ mode: "number" })
-	.notNull()
-	.primaryKey({ autoIncrement: true })
+const id = () => integer({ mode: "number" }).notNull()
+const primaryId = () => id().primaryKey({ autoIncrement: true })
 
 export const liveTable = sqliteTable("live", {
-	id: primaryId,
+	id: primaryId(),
 	name: text().notNull(),
 	description: text().notNull(),
-	ownerId: integer()
-		.references(() => userTable.id)
-		.notNull(),
+	ownerId: id().references(() => userTable.id),
 })
 
 export type LiveTable = typeof liveTable.$inferSelect
 
 export const liveDayTable = sqliteTable("live_day", {
-	id: primaryId,
-	liveId: integer()
-		.references(() => liveTable.id)
-		.notNull(),
+	id: primaryId(),
+	liveId: id().references(() => liveTable.id),
 	date: text().notNull(), // yyyy/mm/dd
 	start: text().notNull(), // hh:mm 24時間表示
 	end: text().notNull(), // hh:mm 24時間表示
@@ -29,7 +24,7 @@ export const liveDayTable = sqliteTable("live_day", {
 export type LiveDayTable = typeof liveDayTable.$inferSelect
 
 export const userTable = sqliteTable("user", {
-	id: primaryId,
+	id: primaryId(),
 	name: text().notNull(),
 	mail: text().notNull().unique(),
 	passwordHash: text().notNull(),
@@ -38,27 +33,27 @@ export const userTable = sqliteTable("user", {
 export type UserTable = typeof userTable.$inferSelect
 
 export const bandTable = sqliteTable("band", {
-	id: primaryId,
+	id: primaryId(),
 	name: text().notNull(),
-	leaderId: integer()
-		.notNull()
-		.references(() => userTable.id)
-		.notNull(),
+	leaderId: id().references(() => userTable.id),
 })
 
 export type BandTable = typeof bandTable.$inferSelect
 
+export const bandParticipationTable = sqliteTable("band_participation", {
+	id: primaryId(),
+	liveId: id().references(() => liveTable.id),
+	bandId: id().references(() => bandTable.id),
+	approved: integer({ mode: "boolean" }).notNull(),
+})
+
+export type BandParticipationTable = typeof bandParticipationTable.$inferSelect
+
 export const bandAvailabilityTable = sqliteTable("band_availability", {
-	id: primaryId,
-	bandId: integer()
-		.notNull()
-		.references(() => bandTable.id),
-	liveId: integer()
-		.notNull()
-		.references(() => liveTable.id),
-	liveDayId: integer()
-		.notNull()
-		.references(() => liveDayTable.id),
+	id: primaryId(),
+	bandId: id().references(() => bandTable.id),
+	liveId: id().references(() => liveTable.id),
+	liveDayId: id().references(() => liveDayTable.id),
 	start: text().notNull(), // hh:mm 24時間表示
 	end: text().notNull(), // hh:mm 24時間表示
 })
