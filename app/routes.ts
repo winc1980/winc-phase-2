@@ -27,11 +27,16 @@ export default [
 							index("./routes/app/live/home.tsx"),
 							route("application", "./routes/app/live/application.tsx"),
 							route("band/create", "./routes/app/live/band/create.tsx"),
+							route("timetable", "./routes/app/live/timetable.tsx"),
 						]),
 						...prefix("band/:bandId", [
 							layout("./routes/app/live/band/band-middleware.tsx", [
 								layout("./routes/app/live/band/band-layout.tsx", [
 									index("./routes/app/live/band/home.tsx"),
+									route(
+										"availability",
+										"./routes/app/live/band/availability.tsx",
+									),
 								]),
 							]),
 						]),

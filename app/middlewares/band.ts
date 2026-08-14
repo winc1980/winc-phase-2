@@ -9,7 +9,11 @@ import { liveContext } from "./live"
 import { repositoryContext } from "./repositories"
 import { userContext } from "./user"
 
-export const bandContext = createContext<{ band: Band; isLeader: boolean }>()
+export const bandContext = createContext<{
+	band: Band
+	isLeader: boolean
+	isApproved: boolean
+}>()
 
 export const bandMiddleware: Route.MiddlewareFunction = async ({
 	request,
@@ -39,7 +43,7 @@ export const bandMiddleware: Route.MiddlewareFunction = async ({
 			type: "error",
 			message: "データベースエラー",
 		})
-		return redirect("/app", {
+		return redirect(`/app/live/${live.id}`, {
 			headers: await createSessionCommittedHeader(session),
 		})
 	}
@@ -56,9 +60,22 @@ export const bandMiddleware: Route.MiddlewareFunction = async ({
 		})
 	}
 
+	const result2 = await bandRepository.getIsApproved(band.id)
+	if (!result2.success) {
+		session.flash("toastPayload", {
+			type: "error",
+			message: "データベースエラー",
+		})
+		return redirect(`/app/live/${live.id}`, {
+			headers: await createSessionCommittedHeader(session),
+		})
+	}
+
+	const isApproved = result2.value
+
 	const user = context.get(userContext)
 
 	const isLeader = band.leaderId === user.id
 
-	context.set(bandContext, { band, isLeader })
+	context.set(bandContext, { band, isLeader, isApproved })
 }

@@ -1,7 +1,8 @@
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, InfoIcon, ListIcon } from "lucide-react"
 import { Link, Outlet } from "react-router"
 import { AccountDropdownMenu } from "~/components/common/AccountDropdownMenu"
 import { BrandIcon } from "~/components/common/BrandIcon"
+import { LinkTabButton } from "~/components/common/LinkTabButton"
 import { PageContainer } from "~/components/common/PageContainer"
 import { Button } from "~/components/ui/button"
 import { bandContext } from "~/middlewares/band"
@@ -19,7 +20,7 @@ export async function loader({ context }: Route.LoaderArgs) {
 }
 
 export default function BandLayout({
-	loaderData: { user, live, band },
+	loaderData: { user, live, band, isApproved, isLeader },
 }: Route.ComponentProps) {
 	return (
 		<PageContainer
@@ -45,7 +46,21 @@ export default function BandLayout({
 						</div>
 						<AccountDropdownMenu user={user} />
 					</div>
-					<div className="h-12">bottom header</div>
+					<div className="h-12 flex items-center">
+						<LinkTabButton
+							to={`/app/live/${live.id}/band/${band.id}`}
+							Icon={InfoIcon}
+							label={"バンド情報"}
+							end
+						/>
+						{isLeader && isApproved && (
+							<LinkTabButton
+								to={`/app/live/${live.id}/band/${band.id}/availability`}
+								Icon={ListIcon}
+								label={"出演可能時間の調整"}
+							/>
+						)}
+					</div>
 				</div>
 			}
 			Body={<Outlet />}

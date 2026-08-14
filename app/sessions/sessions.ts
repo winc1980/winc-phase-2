@@ -12,7 +12,6 @@ type SessionData = {
 }
 
 type SessionFlashData = {
-	error: string
 	toastPayload: ToastPayload
 	redirectAfterAuth?: string
 }

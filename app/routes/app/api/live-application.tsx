@@ -18,7 +18,6 @@ export async function loader({ params, context, request }: Route.LoaderArgs) {
 	if (verification.status === "verified") {
 		const session = await getSessionFromRequest(request)
 		session.set("applicationToken", params.token)
-		console.log("aaa")
 		return redirect(`/app/live/${verification.liveId}/band/create`, {
 			headers: await createSessionCommittedHeader(session),
 		})

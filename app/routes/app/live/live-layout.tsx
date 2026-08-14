@@ -1,4 +1,10 @@
-import { ChevronRight, DrumIcon, FilePenIcon, InfoIcon } from "lucide-react"
+import {
+	CalendarDaysIcon,
+	ChevronRight,
+	DrumIcon,
+	FilePenIcon,
+	InfoIcon,
+} from "lucide-react"
 import { Link, Outlet } from "react-router"
 import { AccountDropdownMenu } from "~/components/common/AccountDropdownMenu"
 import { BrandIcon } from "~/components/common/BrandIcon"
@@ -47,7 +53,7 @@ export default function LiveLayout({
 						<LinkTabButton
 							to={`/app/live/${live.id}`}
 							Icon={InfoIcon}
-							label="概要"
+							label="ライブ情報"
 							end
 						/>
 						{isOwner && (
@@ -62,6 +68,13 @@ export default function LiveLayout({
 								to={`/app/live/${live.id}/band/create`}
 								Icon={DrumIcon}
 								label={"バンド参加申請"}
+							/>
+						)}
+						{isOwner && (
+							<LinkTabButton
+								to={`/app/live/${live.id}/timetable`}
+								Icon={CalendarDaysIcon}
+								label="予定を作成"
 							/>
 						)}
 					</div>

@@ -21,12 +21,47 @@ export interface BandRepository {
 		leaderId: number,
 		liveId: number,
 	): Promise<Result<Band, RepositoryError>>
+	getIsApproved(id: number): Promise<Result<boolean, RepositoryError>>
+
+	approveBandApplication(bandId: number): Promise<Result<null, RepositoryError>>
 }
 
 export class BandRepositoryImpl implements BandRepository {
 	private readonly db: DrizzleDB
 	constructor(db: DrizzleDB) {
 		this.db = db
+	}
+	async approveBandApplication(
+		bandId: number,
+	): Promise<Result<null, RepositoryError>> {
+		const result = await wrapPromise(
+			this.db
+				.update(bandParticipationTable)
+				.set({ approved: true })
+				.where(eq(bandParticipationTable.bandId, bandId)),
+		)
+
+		if (!result.success)
+			return fail(
+				new RepositoryError("BandParticipationTableの処理が失敗しました"),
+			)
+
+		return success(null)
+	}
+	async getIsApproved(id: number): Promise<Result<boolean, RepositoryError>> {
+		const result = await wrapPromise(
+			this.db
+				.select({ approved: bandParticipationTable.approved })
+				.from(bandParticipationTable)
+				.where(eq(bandParticipationTable.bandId, id)),
+		)
+
+		if (!result.success)
+			return fail(
+				new RepositoryError("BandParticipationTableの処理が失敗しました"),
+			)
+
+		return success(result.value[0].approved)
 	}
 	async create(
 		bandName: string,
