@@ -1,13 +1,13 @@
+import { useState } from "react";
 import { BrandIcon } from "~/components/common/BrandIcon";
+import { DateInput } from "~/components/common/DateInput";
+import { TimeInput } from "~/components/common/TimeInput";
+import { PlainDate } from "~/lib/plain-date";
+import { PlainTime } from "~/lib/plain-time";
 import { repositoryContext } from "~/middlewares/repositories";
 import { verifyToken } from "~/sessions/jwt";
 import { getSession } from "~/sessions/sessions";
 import type { Route } from "./+types/home";
-import { DateInput } from "~/components/common/DateInput";
-import { useState } from "react";
-import { PlainDate } from "~/lib/plain-date";
-import { PlainTime } from "~/lib/plain-time";
-import { TimeInput } from "~/components/common/TimeInput";
 
 export async function loader({ request, context }: Route.LoaderArgs) {
   const session = await getSession(request.headers.get("Cookie"));
@@ -40,8 +40,9 @@ export default function ({ loaderData }: Route.ComponentProps) {
     <div>
       <div>
         <button
+          type="button"
           onClick={() => {
-            setHideYear(!hideYear);
+            setHideYear((prev) => !prev);
           }}
         >
           年の表示変更
