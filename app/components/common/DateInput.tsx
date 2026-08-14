@@ -120,7 +120,7 @@ export function DateInput({
       {label && <legend className="text-sm text-foreground">{label}</legend>}
 
       <div className="flex items-center gap-2">
-        {hideYear && (
+        {!hideYear && (
           <>
             <select
               id={`${id}-year`}

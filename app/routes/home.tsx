@@ -40,6 +40,7 @@ export default function ({ loaderData }: Route.ComponentProps) {
 		<div>
 			<div>
 				<button
+					type="button"
 					onClick={() => {
 						setHideYear(!hideYear)
 					}}
