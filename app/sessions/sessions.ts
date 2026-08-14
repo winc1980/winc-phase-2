@@ -30,7 +30,7 @@ export const { getSession, commitSession, destroySession } =
 export const getSessionFromRequest = (request: Request) =>
 	getSession(request.headers.get("Cookie"))
 
-export const createSessionCommitedHeader = async (
+export const createSessionCommittedHeader = async (
 	session: Session,
 ): Promise<ResponseInit["headers"]> => {
 	return { "Set-Cookie": await commitSession(session) }

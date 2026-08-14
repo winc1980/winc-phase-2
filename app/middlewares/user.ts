@@ -6,7 +6,7 @@ import {
 import type { User } from "~/domain/entities/user"
 import { verifyToken } from "~/sessions/jwt"
 import {
-	createSessionCommitedHeader,
+	createSessionCommittedHeader,
 	getSessionFromRequest,
 } from "~/sessions/sessions"
 import { repositoryContext } from "./repositories"
@@ -29,7 +29,7 @@ export const userMiddleware: MiddlewareFunction<Response> = async ({
 		})
 
 		return redirect("/auth/login", {
-			headers: await createSessionCommitedHeader(session),
+			headers: await createSessionCommittedHeader(session),
 		})
 	}
 
@@ -49,7 +49,7 @@ export const userMiddleware: MiddlewareFunction<Response> = async ({
 		}
 		session.flash("redirectAfterAuth", request.url)
 		return redirect("/auth/login", {
-			headers: await createSessionCommitedHeader(session),
+			headers: await createSessionCommittedHeader(session),
 		})
 	}
 
@@ -64,7 +64,7 @@ export const userMiddleware: MiddlewareFunction<Response> = async ({
 			message: "エラーが発生しました。ログインし直してください。",
 		})
 		return redirect("/auth/login", {
-			headers: await createSessionCommitedHeader(session),
+			headers: await createSessionCommittedHeader(session),
 		})
 	}
 
@@ -77,7 +77,7 @@ export const userMiddleware: MiddlewareFunction<Response> = async ({
 			message: "存在しないユーザーです。ログインし直してください。",
 		})
 		return redirect("/auth/login", {
-			headers: await createSessionCommitedHeader(session),
+			headers: await createSessionCommittedHeader(session),
 		})
 	}
 

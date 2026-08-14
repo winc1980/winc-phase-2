@@ -20,5 +20,6 @@
 		"editor.tabSize": 2,
 		"editor.indentSize": "tabSize"
 	},
-	"css.lint.unknownAtRules": "ignore"
+	"css.lint.unknownAtRules": "ignore",
+	"cSpell.words": ["Serde"]
 }

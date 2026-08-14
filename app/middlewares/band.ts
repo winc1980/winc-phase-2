@@ -1,7 +1,7 @@
 import { createContext, redirect } from "react-router"
 import type { Band } from "~/domain/entities/band"
 import {
-	createSessionCommitedHeader,
+	createSessionCommittedHeader,
 	getSessionFromRequest,
 } from "~/sessions/sessions"
 import type { Route } from "../routes/app/live/band/+types/band-middleware"
@@ -27,7 +27,7 @@ export const bandMiddleware: Route.MiddlewareFunction = async ({
 			message: "バンドが見つかりませんでした",
 		})
 		return redirect(`/app/live/${live.id}`, {
-			headers: await createSessionCommitedHeader(session),
+			headers: await createSessionCommittedHeader(session),
 		})
 	}
 
@@ -40,7 +40,7 @@ export const bandMiddleware: Route.MiddlewareFunction = async ({
 			message: "データベースエラー",
 		})
 		return redirect("/app", {
-			headers: await createSessionCommitedHeader(session),
+			headers: await createSessionCommittedHeader(session),
 		})
 	}
 
@@ -52,7 +52,7 @@ export const bandMiddleware: Route.MiddlewareFunction = async ({
 			message: "バンドが見つかりませんでした",
 		})
 		return redirect(`/app/live/${live.id}`, {
-			headers: await createSessionCommitedHeader(session),
+			headers: await createSessionCommittedHeader(session),
 		})
 	}
 

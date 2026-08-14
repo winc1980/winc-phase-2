@@ -1,7 +1,7 @@
 import { createContext, redirect } from "react-router"
 import type { Live } from "~/domain/entities/live"
 import {
-	createSessionCommitedHeader,
+	createSessionCommittedHeader,
 	getSessionFromRequest,
 } from "~/sessions/sessions"
 import type { Route } from "../routes/app/live/+types/live-middleware"
@@ -27,7 +27,7 @@ export const liveMiddleware: Route.MiddlewareFunction = async ({
 			message: "ライブが見つかりませんでした",
 		})
 		return redirect("/app", {
-			headers: await createSessionCommitedHeader(session),
+			headers: await createSessionCommittedHeader(session),
 		})
 	}
 
@@ -39,7 +39,7 @@ export const liveMiddleware: Route.MiddlewareFunction = async ({
 			message: "データベースエラー",
 		})
 		return redirect("/app", {
-			headers: await createSessionCommitedHeader(session),
+			headers: await createSessionCommittedHeader(session),
 		})
 	}
 
@@ -49,7 +49,7 @@ export const liveMiddleware: Route.MiddlewareFunction = async ({
 			message: "ライブが見つかりませんでした",
 		})
 		return redirect("/app", {
-			headers: await createSessionCommitedHeader(session),
+			headers: await createSessionCommittedHeader(session),
 		})
 	}
 
