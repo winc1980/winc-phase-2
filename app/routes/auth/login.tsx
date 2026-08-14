@@ -122,8 +122,9 @@ export async function action({ request, context }: Route.ActionArgs) {
 		type: "success",
 		message: `${user.name} としてログインしました`,
 	})
+	const redirectUrl = session.get("redirectAfterAuth")
 
-	throw redirect("/app", {
+	return redirect(redirectUrl ?? "/app", {
 		headers: { "Set-Cookie": await commitSession(session) },
 	})
 }

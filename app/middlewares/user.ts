@@ -63,6 +63,7 @@ export const userMiddleware: MiddlewareFunction<Response> = async ({
 			type: "error",
 			message: "エラーが発生しました。ログインし直してください。",
 		})
+		session.flash("redirectAfterAuth", request.url)
 		return redirect("/auth/login", {
 			headers: await createSessionCommittedHeader(session),
 		})
@@ -76,6 +77,7 @@ export const userMiddleware: MiddlewareFunction<Response> = async ({
 			type: "error",
 			message: "存在しないユーザーです。ログインし直してください。",
 		})
+		session.flash("redirectAfterAuth", request.url)
 		return redirect("/auth/login", {
 			headers: await createSessionCommittedHeader(session),
 		})
