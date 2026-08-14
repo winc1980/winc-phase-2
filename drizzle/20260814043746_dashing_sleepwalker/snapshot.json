@@ -1,498 +1,444 @@
 {
-  "version": "7",
-  "dialect": "sqlite",
-  "id": "996a1605-28a1-4c5c-889a-6f60a452f8d8",
-  "prevIds": [
-    "677123ea-5e01-43c8-bf69-94e113e301df"
-  ],
-  "ddl": [
-    {
-      "name": "band_availability",
-      "entityType": "tables"
-    },
-    {
-      "name": "band_participation",
-      "entityType": "tables"
-    },
-    {
-      "name": "band",
-      "entityType": "tables"
-    },
-    {
-      "name": "live_day",
-      "entityType": "tables"
-    },
-    {
-      "name": "live",
-      "entityType": "tables"
-    },
-    {
-      "name": "user",
-      "entityType": "tables"
-    },
-    {
-      "type": "integer",
-      "notNull": false,
-      "autoincrement": true,
-      "default": null,
-      "generated": null,
-      "name": "id",
-      "entityType": "columns",
-      "table": "band_availability"
-    },
-    {
-      "type": "integer",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "bandId",
-      "entityType": "columns",
-      "table": "band_availability"
-    },
-    {
-      "type": "integer",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "liveId",
-      "entityType": "columns",
-      "table": "band_availability"
-    },
-    {
-      "type": "integer",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "liveDayId",
-      "entityType": "columns",
-      "table": "band_availability"
-    },
-    {
-      "type": "text",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "start",
-      "entityType": "columns",
-      "table": "band_availability"
-    },
-    {
-      "type": "text",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "end",
-      "entityType": "columns",
-      "table": "band_availability"
-    },
-    {
-      "type": "integer",
-      "notNull": false,
-      "autoincrement": true,
-      "default": null,
-      "generated": null,
-      "name": "id",
-      "entityType": "columns",
-      "table": "band_participation"
-    },
-    {
-      "type": "integer",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "liveId",
-      "entityType": "columns",
-      "table": "band_participation"
-    },
-    {
-      "type": "integer",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "bandId",
-      "entityType": "columns",
-      "table": "band_participation"
-    },
-    {
-      "type": "integer",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "approved",
-      "entityType": "columns",
-      "table": "band_participation"
-    },
-    {
-      "type": "integer",
-      "notNull": false,
-      "autoincrement": true,
-      "default": null,
-      "generated": null,
-      "name": "id",
-      "entityType": "columns",
-      "table": "band"
-    },
-    {
-      "type": "text",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "name",
-      "entityType": "columns",
-      "table": "band"
-    },
-    {
-      "type": "integer",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "leaderId",
-      "entityType": "columns",
-      "table": "band"
-    },
-    {
-      "type": "integer",
-      "notNull": false,
-      "autoincrement": true,
-      "default": null,
-      "generated": null,
-      "name": "id",
-      "entityType": "columns",
-      "table": "live_day"
-    },
-    {
-      "type": "integer",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "liveId",
-      "entityType": "columns",
-      "table": "live_day"
-    },
-    {
-      "type": "text",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "date",
-      "entityType": "columns",
-      "table": "live_day"
-    },
-    {
-      "type": "text",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "start",
-      "entityType": "columns",
-      "table": "live_day"
-    },
-    {
-      "type": "text",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "end",
-      "entityType": "columns",
-      "table": "live_day"
-    },
-    {
-      "type": "integer",
-      "notNull": false,
-      "autoincrement": true,
-      "default": null,
-      "generated": null,
-      "name": "id",
-      "entityType": "columns",
-      "table": "live"
-    },
-    {
-      "type": "text",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "name",
-      "entityType": "columns",
-      "table": "live"
-    },
-    {
-      "type": "text",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "description",
-      "entityType": "columns",
-      "table": "live"
-    },
-    {
-      "type": "integer",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "ownerId",
-      "entityType": "columns",
-      "table": "live"
-    },
-    {
-      "type": "integer",
-      "notNull": false,
-      "autoincrement": true,
-      "default": null,
-      "generated": null,
-      "name": "id",
-      "entityType": "columns",
-      "table": "user"
-    },
-    {
-      "type": "text",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "name",
-      "entityType": "columns",
-      "table": "user"
-    },
-    {
-      "type": "text",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "mail",
-      "entityType": "columns",
-      "table": "user"
-    },
-    {
-      "type": "text",
-      "notNull": true,
-      "autoincrement": false,
-      "default": null,
-      "generated": null,
-      "name": "passwordHash",
-      "entityType": "columns",
-      "table": "user"
-    },
-    {
-      "columns": [
-        "bandId"
-      ],
-      "tableTo": "band",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "nameExplicit": false,
-      "name": "fk_band_availability_bandId_band_id_fk",
-      "entityType": "fks",
-      "table": "band_availability"
-    },
-    {
-      "columns": [
-        "liveId"
-      ],
-      "tableTo": "live",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "nameExplicit": false,
-      "name": "fk_band_availability_liveId_live_id_fk",
-      "entityType": "fks",
-      "table": "band_availability"
-    },
-    {
-      "columns": [
-        "liveDayId"
-      ],
-      "tableTo": "live_day",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "nameExplicit": false,
-      "name": "fk_band_availability_liveDayId_live_day_id_fk",
-      "entityType": "fks",
-      "table": "band_availability"
-    },
-    {
-      "columns": [
-        "liveId"
-      ],
-      "tableTo": "live",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "nameExplicit": false,
-      "name": "fk_band_application_liveId_live_id_fk",
-      "entityType": "fks",
-      "table": "band_participation"
-    },
-    {
-      "columns": [
-        "bandId"
-      ],
-      "tableTo": "band",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "nameExplicit": false,
-      "name": "fk_band_application_bandId_band_id_fk",
-      "entityType": "fks",
-      "table": "band_participation"
-    },
-    {
-      "columns": [
-        "leaderId"
-      ],
-      "tableTo": "user",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "nameExplicit": false,
-      "name": "fk_band_leaderId_user_id_fk",
-      "entityType": "fks",
-      "table": "band"
-    },
-    {
-      "columns": [
-        "liveId"
-      ],
-      "tableTo": "live",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "nameExplicit": false,
-      "name": "fk_live_day_liveId_live_id_fk",
-      "entityType": "fks",
-      "table": "live_day"
-    },
-    {
-      "columns": [
-        "ownerId"
-      ],
-      "tableTo": "user",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "nameExplicit": false,
-      "name": "fk_live_ownerId_user_id_fk",
-      "entityType": "fks",
-      "table": "live"
-    },
-    {
-      "columns": [
-        "id"
-      ],
-      "nameExplicit": false,
-      "name": "band_availability_pk",
-      "table": "band_availability",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "id"
-      ],
-      "nameExplicit": false,
-      "name": "band_application_pk",
-      "table": "band_participation",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "id"
-      ],
-      "nameExplicit": false,
-      "name": "band_pk",
-      "table": "band",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "id"
-      ],
-      "nameExplicit": false,
-      "name": "live_day_pk",
-      "table": "live_day",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "id"
-      ],
-      "nameExplicit": false,
-      "name": "live_pk",
-      "table": "live",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "id"
-      ],
-      "nameExplicit": false,
-      "name": "user_pk",
-      "table": "user",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "liveId",
-        "bandId"
-      ],
-      "nameExplicit": false,
-      "name": "band_participation_liveId_bandId_unique",
-      "entityType": "uniques",
-      "table": "band_participation"
-    },
-    {
-      "columns": [
-        "id",
-        "date"
-      ],
-      "nameExplicit": false,
-      "name": "live_day_id_date_unique",
-      "entityType": "uniques",
-      "table": "live_day"
-    },
-    {
-      "columns": [
-        "mail"
-      ],
-      "nameExplicit": false,
-      "name": "user_mail_unique",
-      "entityType": "uniques",
-      "table": "user"
-    }
-  ],
-  "renames": []
+	"version": "7",
+	"dialect": "sqlite",
+	"id": "996a1605-28a1-4c5c-889a-6f60a452f8d8",
+	"prevIds": ["677123ea-5e01-43c8-bf69-94e113e301df"],
+	"ddl": [
+		{
+			"name": "band_availability",
+			"entityType": "tables"
+		},
+		{
+			"name": "band_participation",
+			"entityType": "tables"
+		},
+		{
+			"name": "band",
+			"entityType": "tables"
+		},
+		{
+			"name": "live_day",
+			"entityType": "tables"
+		},
+		{
+			"name": "live",
+			"entityType": "tables"
+		},
+		{
+			"name": "user",
+			"entityType": "tables"
+		},
+		{
+			"type": "integer",
+			"notNull": false,
+			"autoincrement": true,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "band_availability"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "bandId",
+			"entityType": "columns",
+			"table": "band_availability"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "liveId",
+			"entityType": "columns",
+			"table": "band_availability"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "liveDayId",
+			"entityType": "columns",
+			"table": "band_availability"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "start",
+			"entityType": "columns",
+			"table": "band_availability"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "end",
+			"entityType": "columns",
+			"table": "band_availability"
+		},
+		{
+			"type": "integer",
+			"notNull": false,
+			"autoincrement": true,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "band_participation"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "liveId",
+			"entityType": "columns",
+			"table": "band_participation"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "bandId",
+			"entityType": "columns",
+			"table": "band_participation"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "approved",
+			"entityType": "columns",
+			"table": "band_participation"
+		},
+		{
+			"type": "integer",
+			"notNull": false,
+			"autoincrement": true,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "band"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "name",
+			"entityType": "columns",
+			"table": "band"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "leaderId",
+			"entityType": "columns",
+			"table": "band"
+		},
+		{
+			"type": "integer",
+			"notNull": false,
+			"autoincrement": true,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "live_day"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "liveId",
+			"entityType": "columns",
+			"table": "live_day"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "date",
+			"entityType": "columns",
+			"table": "live_day"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "start",
+			"entityType": "columns",
+			"table": "live_day"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "end",
+			"entityType": "columns",
+			"table": "live_day"
+		},
+		{
+			"type": "integer",
+			"notNull": false,
+			"autoincrement": true,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "live"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "name",
+			"entityType": "columns",
+			"table": "live"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "description",
+			"entityType": "columns",
+			"table": "live"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "ownerId",
+			"entityType": "columns",
+			"table": "live"
+		},
+		{
+			"type": "integer",
+			"notNull": false,
+			"autoincrement": true,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "user"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "name",
+			"entityType": "columns",
+			"table": "user"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "mail",
+			"entityType": "columns",
+			"table": "user"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "passwordHash",
+			"entityType": "columns",
+			"table": "user"
+		},
+		{
+			"columns": ["bandId"],
+			"tableTo": "band",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_band_availability_bandId_band_id_fk",
+			"entityType": "fks",
+			"table": "band_availability"
+		},
+		{
+			"columns": ["liveId"],
+			"tableTo": "live",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_band_availability_liveId_live_id_fk",
+			"entityType": "fks",
+			"table": "band_availability"
+		},
+		{
+			"columns": ["liveDayId"],
+			"tableTo": "live_day",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_band_availability_liveDayId_live_day_id_fk",
+			"entityType": "fks",
+			"table": "band_availability"
+		},
+		{
+			"columns": ["liveId"],
+			"tableTo": "live",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_band_application_liveId_live_id_fk",
+			"entityType": "fks",
+			"table": "band_participation"
+		},
+		{
+			"columns": ["bandId"],
+			"tableTo": "band",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_band_application_bandId_band_id_fk",
+			"entityType": "fks",
+			"table": "band_participation"
+		},
+		{
+			"columns": ["leaderId"],
+			"tableTo": "user",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_band_leaderId_user_id_fk",
+			"entityType": "fks",
+			"table": "band"
+		},
+		{
+			"columns": ["liveId"],
+			"tableTo": "live",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_live_day_liveId_live_id_fk",
+			"entityType": "fks",
+			"table": "live_day"
+		},
+		{
+			"columns": ["ownerId"],
+			"tableTo": "user",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_live_ownerId_user_id_fk",
+			"entityType": "fks",
+			"table": "live"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "band_availability_pk",
+			"table": "band_availability",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "band_application_pk",
+			"table": "band_participation",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "band_pk",
+			"table": "band",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "live_day_pk",
+			"table": "live_day",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "live_pk",
+			"table": "live",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "user_pk",
+			"table": "user",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["liveId", "bandId"],
+			"nameExplicit": false,
+			"name": "band_participation_liveId_bandId_unique",
+			"entityType": "uniques",
+			"table": "band_participation"
+		},
+		{
+			"columns": ["id", "date"],
+			"nameExplicit": false,
+			"name": "live_day_id_date_unique",
+			"entityType": "uniques",
+			"table": "live_day"
+		},
+		{
+			"columns": ["mail"],
+			"nameExplicit": false,
+			"name": "user_mail_unique",
+			"entityType": "uniques",
+			"table": "user"
+		}
+	],
+	"renames": []
 }

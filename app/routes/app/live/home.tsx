@@ -1,6 +1,5 @@
 import { Link } from "react-router"
 import { Badge } from "~/components/ui/badge"
-import { Button } from "~/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card"
 import { liveContext } from "~/middlewares/live"
 import { repositoryContext } from "~/middlewares/repositories"
