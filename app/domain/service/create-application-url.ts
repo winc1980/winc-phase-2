@@ -3,5 +3,5 @@ export function createApplicationUrl(
 	origin: string,
 	message: string,
 ) {
-	return `${origin}/out/${message}/live-application/${encodeURIComponent(token)}`
+	return `${origin}/app/out/${message}/live-application/${encodeURIComponent(token)}`
 }
