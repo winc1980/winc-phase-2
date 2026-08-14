@@ -36,6 +36,10 @@ export function formatPlainDate(
 		return `${date.year.toString().padStart(4, "0")}/${date.month.toString()}/${date.day.toString()}`
 	return `${date.month.toString()}/${date.day.toString()}`
 }
+export function plainTimeToMinutes(time: PlainTimeLike) {
+	return time.hour * 60 + time.minute
+}
+
 export function formatPlainTime(time: PlainTimeLike) {
 	return `${time.hour.toString()}:${time.minute.toString().padStart(2, "0")}`
 }

@@ -4,19 +4,25 @@ import {
 	type LiveApplicationTable,
 	type LiveTable,
 	liveApplicationTable,
+	liveDayTable,
 	liveTable,
 } from "~/db/schema"
 import { RepositoryError } from "~/domain/data/errors"
 import type { Live } from "~/domain/entities/live"
 import type { LiveApplication } from "~/domain/entities/live-application"
+import type { LiveDay } from "~/domain/entities/live-day"
 import { PlainDate } from "~/lib/plain-date"
-import { PlainDateTimeSerde } from "~/lib/plain-datetime-utils"
+import {
+	PlainDateTimeSerde,
+	plainTimeToMinutes,
+} from "~/lib/plain-datetime-utils"
 import { PlainTime } from "~/lib/plain-time"
 import { fail, type Result, success, wrapPromise } from "~/lib/result"
 
 export interface LiveRepository {
 	getById(id: number): Promise<Result<Live | null, RepositoryError>>
 	getByOwnerId(ownerId: number): Promise<Result<Live[], RepositoryError>>
+	getLiveDays(liveId: number): Promise<Result<LiveDay[], RepositoryError>>
 	getAllApplications(
 		id: number,
 	): Promise<Result<LiveApplication[], RepositoryError>>
@@ -48,6 +54,42 @@ export class LiveRepositoryImpl implements LiveRepository {
 	private readonly db: DrizzleDB
 	constructor(db: DrizzleDB) {
 		this.db = db
+	}
+
+	async getLiveDays(
+		liveId: number,
+	): Promise<Result<LiveDay[], RepositoryError>> {
+		const result = await wrapPromise(
+			this.db
+				.select()
+				.from(liveDayTable)
+				.where(eq(liveDayTable.liveId, liveId)),
+		)
+
+		if (!result.success)
+			return fail(new RepositoryError("LiveDayTableの処理が失敗しました"))
+
+		// date / start は0埋めされないテキスト列なので SQL では正しく並ばない
+		const liveDays = result.value
+			.map(
+				(row) =>
+					({
+						id: row.id,
+						liveId: row.liveId,
+						date: PlainDate.serde.deserialize(row.date),
+						start: PlainTime.serde.deserialize(row.start),
+						end: PlainTime.serde.deserialize(row.end),
+					}) satisfies LiveDay,
+			)
+			.sort(
+				(a, b) =>
+					a.date.year - b.date.year ||
+					a.date.month - b.date.month ||
+					a.date.day - b.date.day ||
+					plainTimeToMinutes(a.start) - plainTimeToMinutes(b.start),
+			)
+
+		return success(liveDays)
 	}
 
 	async verifyApplicationToken(
