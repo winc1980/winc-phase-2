@@ -38,4 +38,9 @@ export class PlainTime implements PlainTimeLike {
 		this.hour = hour
 		this.minute = minute
 	}
+
+	static now(): PlainTime {
+		const date = new Date()
+		return new PlainTime({ hour: date.getHours(), minute: date.getMinutes() })
+	}
 }

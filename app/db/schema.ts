@@ -71,9 +71,11 @@ export type BandAvailabilityTable = typeof bandAvailabilityTable.$inferSelect
 
 export const liveApplicationTable = sqliteTable("live_application_table", {
 	id: primaryId(),
+	name: text().notNull(),
 	liveId: id().references(() => liveTable.id),
 	token: text().notNull().unique(),
 	available: integer({ mode: "boolean" }).notNull(),
+	updatedAt: text().notNull(), // "yyyy/mm/dd-hh:mm"
 })
 
 export type LiveApplicationTable = typeof liveApplicationTable.$inferSelect

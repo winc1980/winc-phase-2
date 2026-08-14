@@ -11,7 +11,7 @@ import {
 import { Input } from "~/components/ui/input"
 import { Textarea } from "~/components/ui/textarea"
 import { useLiveDayFormData } from "~/hooks/useLiveDayFormData"
-import { formatPlainDate } from "~/lib/utils"
+import { formatPlainDate } from "~/lib/plain-datetime-utils"
 
 export default function LiveCreatePage() {
 	const { liveDays, addLiveDay, removeLiveDay } = useLiveDayFormData()

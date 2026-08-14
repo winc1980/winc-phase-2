@@ -38,6 +38,17 @@ export default [
 				]),
 			]),
 		]),
+
+		// API
+		...[
+			// アウトバウンド
+			...prefix("out", [
+				route(
+					":_message/live-application/:token",
+					"./routes/api/live-application.tsx",
+				),
+			]),
+		],
 	]),
 	route("*", "./routes/not-found.tsx"),
 ] satisfies RouteConfig

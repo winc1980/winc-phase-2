@@ -47,4 +47,13 @@ export class PlainDate implements PlainDateLike {
 		this.month = month
 		this.day = day
 	}
+
+	static now(): PlainDate {
+		const date = new Date()
+		return new PlainDate({
+			year: date.getFullYear(),
+			month: date.getMonth() + 1,
+			day: date.getDate(),
+		})
+	}
 }

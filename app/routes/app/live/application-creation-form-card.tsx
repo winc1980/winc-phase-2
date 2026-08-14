@@ -54,15 +54,15 @@ export function ApplicationCreationFormCard() {
 							<FieldGroup>
 								<Field>
 									<FieldLabel htmlFor="application-name">
-										募集名（任意）
+										募集分類名（任意）
 									</FieldLabel>
 									<FieldDescription>
-										ライブ管理者の識別のためにのみ使用します
+										ライブ管理者の識別のためにのみ使用します。外部へ公開されません。
 									</FieldDescription>
 									<Input
 										id="application-name"
 										name="application-name"
-										placeholder="募集"
+										placeholder="例：一次募集"
 									/>
 								</Field>
 								<Field>
@@ -105,7 +105,9 @@ export function ApplicationCreationFormCard() {
 				<AlertDialogContent>
 					<AlertDialogHeader>
 						<AlertDialogTitle>
-							本当に募集を始めてもいいですか？
+							{initialAvailability
+								? "本当に募集を始めてもいいですか？"
+								: "募集リンクを作成します。"}
 						</AlertDialogTitle>
 						<AlertDialogDescription>
 							<span>
@@ -120,7 +122,7 @@ export function ApplicationCreationFormCard() {
 						<AlertDialogAction
 							type="button"
 							onClick={() => {
-								// if (formRef.current) fetcher.submit(formRef.current)
+								if (formRef.current) fetcher.submit(formRef.current)
 							}}
 						>
 							募集を始める
