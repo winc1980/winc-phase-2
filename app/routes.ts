@@ -14,17 +14,30 @@ export default [
 			route("logout", "./routes/auth/logout.tsx"),
 			route("register", "./routes/auth/register.tsx"),
 		]),
-		layout(
-			"./routes/app/app-layout.tsx",
-			prefix("app", [
-				index("./routes/app/index.tsx"),
-				route("live/create", "./routes/app/live/create.tsx"),
-				layout(
-					"./routes/app/live/layout.tsx",
-					prefix("live/:liveId", [index("./routes/app/live/home.tsx")]),
-				),
+		...prefix("app", [
+			layout("./routes/app/app-middleware.tsx", [
+				layout("./routes/app/app-layout.tsx", [
+					index("./routes/app/home.tsx"),
+					...prefix("live", [route("create", "./routes/app/live/create.tsx")]),
+				]),
+
+				...prefix("live/:liveId", [
+					layout("./routes/app/live/live-middleware.tsx", [
+						layout("./routes/app/live/live-layout.tsx", [
+							index("./routes/app/live/home.tsx"),
+						]),
+
+						...prefix("band/:bandId", [
+							layout("./routes/app/live/band/band-middleware.tsx", [
+								layout("./routes/app/live/band/band-layout.tsx", [
+									index("./routes/app/live/band/home.tsx"),
+								]),
+							]),
+						]),
+					]),
+				]),
 			]),
-		),
+		]),
 	]),
 	route("*", "./routes/not-found.tsx"),
 ] satisfies RouteConfig

@@ -33,7 +33,7 @@ export function PageContainer({
 			<header className="w-full border-b relative">
 				<div
 					className={cn(
-						"absolute -bottom-1 w-full h-1 bg-primary transition-opacity opacity-0",
+						"absolute -bottom-1 w-full h-1 bg-linear-to-b from-primary via-primary/75 to-transparent transition-opacity opacity-0",
 						isLoadingDelayed && "opacity-25",
 					)}
 				/>

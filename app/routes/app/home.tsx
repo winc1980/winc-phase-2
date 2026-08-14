@@ -4,7 +4,7 @@ import { Button } from "~/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card"
 import { repositoryContext } from "~/middlewares/repositories"
 import { userContext } from "~/middlewares/user"
-import type { Route } from "./+types"
+import type { Route } from "./+types/home"
 
 export async function loader({ context }: Route.LoaderArgs) {
 	const user = context.get(userContext)

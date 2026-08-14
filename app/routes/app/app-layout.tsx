@@ -1,18 +1,8 @@
-import { LogOutIcon, UserIcon } from "lucide-react"
 import { Link, Outlet } from "react-router"
+import { AccountDropdownMenu } from "~/components/common/AccountDropdownMenu"
 import { BrandIcon } from "~/components/common/BrandIcon"
 import { PageContainer } from "~/components/common/PageContainer"
 import { Button } from "~/components/ui/button"
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuGroup,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu"
-import type { User } from "~/domain/entities/user"
 import { userContext, userMiddleware } from "~/middlewares/user"
 import type { Route } from "./+types/app-layout"
 
@@ -36,43 +26,11 @@ export default function AppLayout({
 						</Link>
 					</Button>
 					<div className="flex items-center">
-						<AccountMenu user={user} />
+						<AccountDropdownMenu user={user} />
 					</div>
 				</div>
 			}
 			Body={<Outlet />}
 		/>
-	)
-}
-
-function AccountMenu({ user }: { user: User }) {
-	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<Button size="icon-lg" variant="ghost">
-					<UserIcon />
-				</Button>
-			</DropdownMenuTrigger>
-			<DropdownMenuContent>
-				<DropdownMenuGroup>
-					<DropdownMenuLabel className="text-sm">
-						<div>{user.name}</div>
-					</DropdownMenuLabel>
-					<DropdownMenuLabel>
-						<div>{user.mail}</div>
-					</DropdownMenuLabel>
-				</DropdownMenuGroup>
-
-				<DropdownMenuSeparator />
-				<DropdownMenuGroup>
-					<DropdownMenuItem>
-						<Link to="/auth/logout" className="flex items-center gap-2 w-full">
-							<LogOutIcon />
-							ログアウト
-						</Link>
-					</DropdownMenuItem>
-				</DropdownMenuGroup>
-			</DropdownMenuContent>
-		</DropdownMenu>
 	)
 }

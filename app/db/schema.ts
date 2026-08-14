@@ -1,5 +1,6 @@
 import { integer, text } from "drizzle-orm/sqlite-core/columns"
 import { sqliteTable } from "drizzle-orm/sqlite-core/table"
+import { unique } from "drizzle-orm/sqlite-core/unique-constraint"
 
 const id = () => integer({ mode: "number" }).notNull()
 const primaryId = () => id().primaryKey({ autoIncrement: true })
@@ -13,13 +14,17 @@ export const liveTable = sqliteTable("live", {
 
 export type LiveTable = typeof liveTable.$inferSelect
 
-export const liveDayTable = sqliteTable("live_day", {
-	id: primaryId(),
-	liveId: id().references(() => liveTable.id),
-	date: text().notNull(), // yyyy/mm/dd
-	start: text().notNull(), // hh:mm 24時間表示
-	end: text().notNull(), // hh:mm 24時間表示
-})
+export const liveDayTable = sqliteTable(
+	"live_day",
+	{
+		id: primaryId(),
+		liveId: id().references(() => liveTable.id),
+		date: text().notNull(), // yyyy/mm/dd
+		start: text().notNull(), // hh:mm 24時間表示
+		end: text().notNull(), // hh:mm 24時間表示
+	},
+	(t) => [unique().on(t.id, t.date)],
+)
 
 export type LiveDayTable = typeof liveDayTable.$inferSelect
 
@@ -40,12 +45,16 @@ export const bandTable = sqliteTable("band", {
 
 export type BandTable = typeof bandTable.$inferSelect
 
-export const bandParticipationTable = sqliteTable("band_participation", {
-	id: primaryId(),
-	liveId: id().references(() => liveTable.id),
-	bandId: id().references(() => bandTable.id),
-	approved: integer({ mode: "boolean" }).notNull(),
-})
+export const bandParticipationTable = sqliteTable(
+	"band_participation",
+	{
+		id: primaryId(),
+		liveId: id().references(() => liveTable.id),
+		bandId: id().references(() => bandTable.id),
+		approved: integer({ mode: "boolean" }).notNull(),
+	},
+	(t) => [unique().on(t.liveId, t.bandId)],
+)
 
 export type BandParticipationTable = typeof bandParticipationTable.$inferSelect
 
