@@ -1,4 +1,4 @@
-import { ChevronRight, FilePenIcon, InfoIcon } from "lucide-react"
+import { ChevronRight, DrumIcon, FilePenIcon, InfoIcon } from "lucide-react"
 import { Link, Outlet } from "react-router"
 import { AccountDropdownMenu } from "~/components/common/AccountDropdownMenu"
 import { BrandIcon } from "~/components/common/BrandIcon"
@@ -7,18 +7,23 @@ import { PageContainer } from "~/components/common/PageContainer"
 import { Button } from "~/components/ui/button"
 import { liveContext } from "~/middlewares/live"
 import { userContext } from "~/middlewares/user"
+import { getSessionFromRequest } from "~/sessions/sessions"
 import type { Route } from "./+types/live-layout"
 
-export async function loader({ context }: Route.LoaderArgs) {
+export async function loader({ context, request }: Route.LoaderArgs) {
 	const user = context.get(userContext)
 
 	const liveInfo = context.get(liveContext)
 
-	return { user, ...liveInfo }
+	const session = await getSessionFromRequest(request)
+
+	const applicationToken = session.get("applicationToken")
+
+	return { user, ...liveInfo, applicationToken }
 }
 
 export default function LiveLayout({
-	loaderData: { user, live },
+	loaderData: { user, live, applicationToken, isOwner },
 }: Route.ComponentProps) {
 	return (
 		<PageContainer
@@ -45,11 +50,20 @@ export default function LiveLayout({
 							label="概要"
 							end
 						/>
-						<LinkTabButton
-							to={`/app/live/${live.id}/application`}
-							Icon={FilePenIcon}
-							label="バンド募集"
-						/>
+						{isOwner && (
+							<LinkTabButton
+								to={`/app/live/${live.id}/application`}
+								Icon={FilePenIcon}
+								label="バンド募集"
+							/>
+						)}
+						{applicationToken && (
+							<LinkTabButton
+								to={`/app/live/${live.id}/band/create`}
+								Icon={DrumIcon}
+								label={"バンド参加申請"}
+							/>
+						)}
 					</div>
 				</div>
 			}

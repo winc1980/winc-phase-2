@@ -1,3 +1,4 @@
+import { redirect } from "react-router"
 import * as v from "valibot"
 import type { LiveApplication } from "~/domain/entities/live-application"
 import { createApplicationUrl } from "~/domain/service/create-application-url"
@@ -15,7 +16,17 @@ import { ApplicationCreationFormCard } from "./application-creation-form-card"
 export type LiveApplicationWithUrl = LiveApplication & { url: string }
 
 export async function loader({ context, request }: Route.LoaderArgs) {
-	const { live } = context.get(liveContext)
+	const { live, isOwner } = context.get(liveContext)
+
+	const session = await getSessionFromRequest(request)
+
+	if (!isOwner) {
+		session.flash("toastPayload", {
+			type: "error",
+			message: "ライブ管理者ではないのでアクセスできません",
+		})
+		return redirect(`/app/live/${live.id}`)
+	}
 
 	const { liveRepository } = context.get(repositoryContext)
 	const result = await liveRepository.getAllApplications(live.id)
@@ -111,10 +122,7 @@ export async function action({ request, context }: Route.ActionArgs) {
 		v.parseAsync(FormDataSchema, Object.fromEntries(formData)),
 	)
 
-	console.log(Object.fromEntries(formData))
-
 	if (!parseResult.success) {
-		console.error(parseResult.error)
 		session.flash("toastPayload", {
 			type: "error",
 			message: "エラー：フォームの形式が不明です",

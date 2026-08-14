@@ -8,6 +8,7 @@ if (!SESSION_SECRET)
 
 type SessionData = {
 	sessionToken: string
+	applicationToken?: string
 }
 
 type SessionFlashData = {

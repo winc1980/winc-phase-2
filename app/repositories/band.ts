@@ -16,12 +16,49 @@ export interface BandRepository {
 	getByLiveId(
 		liveId: number,
 	): Promise<Result<BandParticipation[], RepositoryError>>
+	create(
+		bandName: string,
+		leaderId: number,
+		liveId: number,
+	): Promise<Result<Band, RepositoryError>>
 }
 
 export class BandRepositoryImpl implements BandRepository {
 	private readonly db: DrizzleDB
 	constructor(db: DrizzleDB) {
 		this.db = db
+	}
+	async create(
+		bandName: string,
+		leaderId: number,
+		liveId: number,
+	): Promise<Result<Band, RepositoryError>> {
+		const result = await wrapPromise(
+			this.db.transaction(async (tx) => {
+				const [band] = await tx
+					.insert(bandTable)
+					.values({ name: bandName, leaderId })
+					.returning()
+
+				await tx
+					.insert(bandParticipationTable)
+					.values({ bandId: band.id, liveId, approved: false })
+
+				return band
+			}),
+		)
+
+		if (!result.success)
+			return fail(new RepositoryError("BandTableの処理が失敗しました"))
+
+		const row = result.value
+		const band: Band = {
+			id: row.id,
+			name: row.name,
+			leaderId: row.leaderId,
+		}
+
+		return success(band)
 	}
 	async getByLiveId(
 		liveId: number,

@@ -26,6 +26,7 @@ export default [
 						layout("./routes/app/live/live-layout.tsx", [
 							index("./routes/app/live/home.tsx"),
 							route("application", "./routes/app/live/application.tsx"),
+							route("band/create", "./routes/app/live/band/create.tsx"),
 						]),
 						...prefix("band/:bandId", [
 							layout("./routes/app/live/band/band-middleware.tsx", [

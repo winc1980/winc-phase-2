@@ -26,7 +26,7 @@ export default function RootLayout({ loaderData }: Route.ComponentProps) {
 	}, [loaderData.toastPayload])
 	return (
 		<>
-			<Toaster />
+			<Toaster position="top-center" />
 			<Outlet />
 		</>
 	)

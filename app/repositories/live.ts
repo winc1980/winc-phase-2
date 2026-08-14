@@ -1,6 +1,11 @@
 import { eq } from "drizzle-orm"
 import type { DrizzleDB } from "~/db"
-import { type LiveTable, liveApplicationTable, liveTable } from "~/db/schema"
+import {
+	type LiveApplicationTable,
+	type LiveTable,
+	liveApplicationTable,
+	liveTable,
+} from "~/db/schema"
 import { RepositoryError } from "~/domain/data/errors"
 import type { Live } from "~/domain/entities/live"
 import type { LiveApplication } from "~/domain/entities/live-application"
@@ -27,6 +32,16 @@ export interface LiveRepository {
 	enableApplication(
 		applicationId: number,
 	): Promise<Result<null, RepositoryError>>
+	verifyApplicationToken(
+		token: string,
+	): Promise<
+		Result<
+			| { status: "verified"; liveId: number }
+			| { status: "suspended" }
+			| { status: "notFound" },
+			RepositoryError
+		>
+	>
 }
 
 export class LiveRepositoryImpl implements LiveRepository {
@@ -34,6 +49,36 @@ export class LiveRepositoryImpl implements LiveRepository {
 	constructor(db: DrizzleDB) {
 		this.db = db
 	}
+
+	async verifyApplicationToken(
+		token: string,
+	): Promise<
+		Result<
+			| { status: "verified"; liveId: number }
+			| { status: "suspended" }
+			| { status: "notFound" },
+			RepositoryError
+		>
+	> {
+		const result = await wrapPromise(
+			this.db
+				.select()
+				.from(liveApplicationTable)
+				.where(eq(liveApplicationTable.token, token))
+				.limit(1),
+		)
+
+		if (!result.success)
+			return fail(
+				new RepositoryError("LiveApplicationTableの処理が失敗しました"),
+			)
+
+		const row = result.value[0] as LiveApplicationTable | undefined
+		if (!row) return success({ status: "notFound" })
+		if (!row.available) return success({ status: "suspended" })
+		return success({ status: "verified", liveId: row.liveId })
+	}
+
 	async suspendApplication(
 		applicationId: number,
 	): Promise<Result<null, RepositoryError>> {
@@ -50,6 +95,7 @@ export class LiveRepositoryImpl implements LiveRepository {
 			)
 		return success(null)
 	}
+
 	async enableApplication(
 		applicationId: number,
 	): Promise<Result<null, RepositoryError>> {
@@ -66,6 +112,7 @@ export class LiveRepositoryImpl implements LiveRepository {
 			)
 		return success(null)
 	}
+
 	async createApplication(
 		liveId: number,
 		name: string,
@@ -90,6 +137,7 @@ export class LiveRepositoryImpl implements LiveRepository {
 
 		return success(null)
 	}
+
 	async getAllApplications(
 		id: number,
 	): Promise<Result<LiveApplication[], RepositoryError>> {
@@ -119,6 +167,7 @@ export class LiveRepositoryImpl implements LiveRepository {
 
 		return success(applications)
 	}
+
 	async getByOwnerId(
 		ownerId: number,
 	): Promise<Result<Live[], RepositoryError>> {
