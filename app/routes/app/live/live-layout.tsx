@@ -1,7 +1,8 @@
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, FilePenIcon, InfoIcon } from "lucide-react"
 import { Link, Outlet } from "react-router"
 import { AccountDropdownMenu } from "~/components/common/AccountDropdownMenu"
 import { BrandIcon } from "~/components/common/BrandIcon"
+import { LinkTabButton } from "~/components/common/LinkTabButton"
 import { PageContainer } from "~/components/common/PageContainer"
 import { Button } from "~/components/ui/button"
 import { liveContext } from "~/middlewares/live"
@@ -37,7 +38,19 @@ export default function LiveLayout({
 						</div>
 						<AccountDropdownMenu user={user} />
 					</div>
-					<div className="h-12">bottom header</div>
+					<div className="h-12 flex items-center">
+						<LinkTabButton
+							to={`/app/live/${live.id}`}
+							Icon={InfoIcon}
+							label="概要"
+							end
+						/>
+						<LinkTabButton
+							to={`/app/live/${live.id}/application`}
+							Icon={FilePenIcon}
+							label="バンド募集"
+						/>
+					</div>
 				</div>
 			}
 			Body={<Outlet />}
