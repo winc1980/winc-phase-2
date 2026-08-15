@@ -19,9 +19,21 @@ import {
 import { PlainTime } from "~/lib/plain-time"
 import { fail, type Result, success, wrapPromise } from "~/lib/result"
 
+export type NewLiveDay = {
+	date: PlainDate
+	start: PlainTime
+	end: PlainTime
+}
+
 export interface LiveRepository {
 	getById(id: number): Promise<Result<Live | null, RepositoryError>>
 	getByOwnerId(ownerId: number): Promise<Result<Live[], RepositoryError>>
+	create(
+		name: string,
+		description: string,
+		ownerId: number,
+		liveDays: NewLiveDay[],
+	): Promise<Result<Live, RepositoryError>>
 	getLiveDays(liveId: number): Promise<Result<LiveDay[], RepositoryError>>
 	getAllApplications(
 		id: number,
@@ -54,6 +66,48 @@ export class LiveRepositoryImpl implements LiveRepository {
 	private readonly db: DrizzleDB
 	constructor(db: DrizzleDB) {
 		this.db = db
+	}
+
+	async create(
+		name: string,
+		description: string,
+		ownerId: number,
+		liveDays: NewLiveDay[],
+	): Promise<Result<Live, RepositoryError>> {
+		const result = await wrapPromise(
+			this.db.transaction(async (tx) => {
+				const [live] = await tx
+					.insert(liveTable)
+					.values({ name, description, ownerId })
+					.returning()
+
+				if (liveDays.length > 0) {
+					await tx.insert(liveDayTable).values(
+						liveDays.map((liveDay) => ({
+							liveId: live.id,
+							date: PlainDate.serde.serialize(liveDay.date),
+							start: PlainTime.serde.serialize(liveDay.start),
+							end: PlainTime.serde.serialize(liveDay.end),
+						})),
+					)
+				}
+
+				return live
+			}),
+		)
+
+		if (!result.success)
+			return fail(new RepositoryError("LiveTableの処理が失敗しました"))
+
+		const row = result.value
+		const live: Live = {
+			id: row.id,
+			name: row.name,
+			description: row.description,
+			ownerId: row.ownerId,
+		}
+
+		return success(live)
 	}
 
 	async getLiveDays(

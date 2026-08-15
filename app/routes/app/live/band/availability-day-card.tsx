@@ -1,4 +1,4 @@
-import { LoaderCircleIcon, PlusIcon, Trash2Icon } from "lucide-react"
+import { LoaderCircleIcon, PlusIcon, Trash2 } from "lucide-react"
 import { useState } from "react"
 import { useFetcher } from "react-router"
 import { TimeInput } from "~/components/common/TimeInput"
@@ -10,7 +10,12 @@ import {
 	CardHeader,
 	CardTitle,
 } from "~/components/ui/card"
-import { FieldSeparator } from "~/components/ui/field"
+import {
+	Field,
+	FieldDescription,
+	FieldGroup,
+	FieldLabel,
+} from "~/components/ui/field"
 import type { PlainDateLike } from "~/lib/plain-date"
 import { formatPlainDate, formatPlainTime } from "~/lib/plain-datetime-utils"
 import { PlainTime, type PlainTimeLike } from "~/lib/plain-time"
@@ -44,6 +49,10 @@ export function AvailabilityDayCard({
 		() => new PlainTime({ hour: liveDay.end.hour, minute: liveDay.end.minute }),
 	)
 
+	const isInvalidTimeRange =
+		start.hour > end.hour ||
+		(start.hour === end.hour && start.minute >= end.minute)
+
 	return (
 		<Card>
 			<CardHeader>
@@ -53,82 +62,119 @@ export function AvailabilityDayCard({
 					{formatPlainTime(liveDay.end)}
 				</CardDescription>
 			</CardHeader>
-			<CardContent className="space-y-4">
-				{availabilities.length === 0 ? (
-					<p className="text-muted-foreground text-sm">
-						この日の出演可能時間はまだ登録されていません
-					</p>
-				) : (
-					<ul className="space-y-2">
-						{availabilities.map((availability) => (
-							<li
-								key={availability.id}
-								className="flex items-center justify-between rounded-md border px-3 py-2"
+
+			<CardContent>
+				<FieldGroup>
+					<Field>
+						<div className="space-y-1">
+							<FieldLabel>出演可能時間</FieldLabel>
+							<FieldDescription>
+								複数の出演可能時間を追加できます。
+							</FieldDescription>
+						</div>
+
+						<div className="space-y-4">
+							{/* 登録済みの出演可能時間 */}
+							{availabilities.length === 0 ? (
+								<p className="text-sm text-muted-foreground">
+									この日の出演可能時間はまだ登録されていません
+								</p>
+							) : (
+								<div className="divide-y ">
+									{availabilities.map((availability) => (
+										<div
+											key={availability.id}
+											className="flex items-center mb-4 rounded-lg border justify-between gap-4 p-4"
+										>
+											<div className="min-w-0 space-y-1">
+												<p className="font-medium">
+													{formatPlainTime(availability.start)}
+													{" 〜 "}
+													{formatPlainTime(availability.end)}
+												</p>
+											</div>
+
+											<fetcher.Form method="POST">
+												<input
+													type="hidden"
+													name="intent"
+													value="delete-availability"
+												/>
+												<input
+													type="hidden"
+													name="availability-id"
+													value={availability.id}
+												/>
+												<Button
+													type="submit"
+													variant="ghost"
+													size="icon"
+													className="shrink-0 text-muted-foreground hover:text-destructive"
+													aria-label="この出演可能時間を削除"
+												>
+													<Trash2 />
+												</Button>
+											</fetcher.Form>
+										</div>
+									))}
+								</div>
+							)}
+
+							{/* 出演可能時間の追加 */}
+							<fetcher.Form
+								method="POST"
+								className="rounded-lg border mt-8 bg-muted/30 p-4"
 							>
-								<span className="text-sm">
-									{formatPlainTime(availability.start)}〜
-									{formatPlainTime(availability.end)}
-								</span>
-								<fetcher.Form method="POST">
-									<input
-										type="hidden"
-										name="intent"
-										value="delete-availability"
+								<input
+									type="hidden"
+									name="intent"
+									value="create-availability"
+								/>
+								<input type="hidden" name="live-day-id" value={liveDay.id} />
+								<input
+									type="hidden"
+									name="start"
+									value={PlainTime.serde.serialize(start)}
+								/>
+								<input
+									type="hidden"
+									name="end"
+									value={PlainTime.serde.serialize(end)}
+								/>
+
+								<div className="grid gap-4 md:grid-cols-[1fr_1fr_auto] md:items-end">
+									<TimeInput
+										label="開始時刻"
+										value={start}
+										onChange={setStart}
 									/>
-									<input
-										type="hidden"
-										name="availability-id"
-										value={availability.id}
-									/>
+
+									<TimeInput label="終了時刻" value={end} onChange={setEnd} />
+
 									<Button
 										type="submit"
-										variant="ghost"
-										size="icon-sm"
-										aria-label="この出演可能時間を削除"
+										disabled={
+											isInvalidTimeRange || fetcher.state === "submitting"
+										}
 									>
-										<Trash2Icon />
+										{fetcher.state === "submitting" ? (
+											<LoaderCircleIcon className="animate-spin" />
+										) : (
+											<PlusIcon />
+										)}
+										追加
 									</Button>
-								</fetcher.Form>
-							</li>
-						))}
-					</ul>
-				)}
+								</div>
 
-				<FieldSeparator />
-
-				<fetcher.Form
-					method="POST"
-					className="flex gap-4 flex-col md:flex-row md:items-end"
-				>
-					<input type="hidden" name="intent" value="create-availability" />
-					<input type="hidden" name="live-day-id" value={liveDay.id} />
-					<input
-						type="hidden"
-						name="start"
-						value={PlainTime.serde.serialize(start)}
-					/>
-					<input
-						type="hidden"
-						name="end"
-						value={PlainTime.serde.serialize(end)}
-					/>
-					<div className="flex gap-4">
-						<TimeInput label="開始時刻" value={start} onChange={setStart} />
-						<TimeInput label="終了時刻" value={end} onChange={setEnd} />
-					</div>
-					<Button
-						type="submit"
-						className="min-w-24"
-						disabled={fetcher.state === "submitting"}
-					>
-						{fetcher.state === "submitting" ? (
-							<LoaderCircleIcon className="animate-spin" />
-						) : (
-							<PlusIcon />
-						)}
-						追加
-					</Button>
-				</fetcher.Form>
+								{isInvalidTimeRange && (
+									<p className="text-red-600 mt-3">
+										開始時間が終了時間よりも早くなっています
+									</p>
+								)}
+							</fetcher.Form>
+						</div>
+					</Field>
+				</FieldGroup>
 			</CardContent>
 		</Card>
 	)

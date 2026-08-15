@@ -70,17 +70,20 @@ export default function BandAvailabilityPage({
 	loaderData: { band, liveDays, availabilitiesByLiveDayId },
 }: Route.ComponentProps) {
 	return (
-		<div className="space-y-6">
-			<div className="space-y-1">
-				<h1 className="text-2xl font-semibold">出演可能時間の調整</h1>
-				<p className="text-muted-foreground text-sm">
-					「{band.name}」が出演できる時間帯を開催日ごとに登録してください
+		<div className="mx-auto max-w-3xl space-y-8">
+			{/* ページヘッダー */}
+			<div className="space-y-2">
+				<h1 className="text-2xl font-semibold tracking-tight">
+					出演可能時間の調整
+				</h1>
+				<p className="text-sm text-muted-foreground">
+					「{band.name}」が出演できる時間帯を開催日ごとに登録してください。
 				</p>
 			</div>
 
 			{liveDays.length === 0 ? (
 				<Card>
-					<CardContent className="text-muted-foreground text-sm">
+					<CardContent className="text-sm text-muted-foreground">
 						このライブにはまだ開催日が設定されていません。ライブ管理者にお問い合わせください。
 					</CardContent>
 				</Card>
